@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище shoolModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cabinet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TimeTableId" Type="int" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="IsExisted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Section_Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionId" Type="int" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="IsRegistered" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Timetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="SectionId" Type="int" Nullable="false" />
+          <Property Name="TeacherId" Type="int" Nullable="false" />
+          <Property Name="CabinetId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Lesson_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_Timetable">
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timetable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="TimeTableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Student_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="1" />
+          <End Role="Section_Student" Type="Self.Section_Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section_Student">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Student_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Section_Student" Type="Self.Section_Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section_Student">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timetable_Cabinet">
+          <End Role="Cabinet" Type="Self.Cabinet" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cabinet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="CabinetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timetable_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timetable_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище shoolModelContainer">
+          <EntitySet Name="Cabinet" EntityType="Self.Cabinet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Section_Student" EntityType="Self.Section_Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timetable" EntityType="Self.Timetable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Lesson_Student" Association="Self.FK_Lesson_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Timetable" Association="Self.FK_Lesson_Timetable">
+            <End Role="Timetable" EntitySet="Timetable" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Student_Section" Association="Self.FK_Section_Student_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Section_Student" EntitySet="Section_Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Student_Student" Association="Self.FK_Section_Student_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Section_Student" EntitySet="Section_Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Class" Association="Self.FK_Student_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Cabinet" Association="Self.FK_Timetable_Cabinet">
+            <End Role="Cabinet" EntitySet="Cabinet" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Section" Association="Self.FK_Timetable_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Teacher" Association="Self.FK_Timetable_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="shoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cabinet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Cabinet" FromRole="Cabinet" ToRole="Timetable" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Student_Class" FromRole="Class" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimeTableId" Type="Int32" Nullable="false" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="IsExisted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Lesson_Student" FromRole="Lesson" ToRole="Student" />
+          <NavigationProperty Name="Timetable" Relationship="Self.FK_Lesson_Timetable" FromRole="Lesson" ToRole="Timetable" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Section_Student" Relationship="Self.FK_Section_Student_Section" FromRole="Section" ToRole="Section_Student" />
+          <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Section" FromRole="Section" ToRole="Timetable" />
+        </EntityType>
+        <EntityType Name="Section_Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionId" Type="Int32" Nullable="false" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="IsRegistered" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Section" Relationship="Self.FK_Section_Student_Section" FromRole="Section_Student" ToRole="Section" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Section_Student_Student" FromRole="Section_Student" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_Student_Class" FromRole="Student" ToRole="Class" />
+          <NavigationProperty Name="Lesson" Relationship="Self.FK_Lesson_Student" FromRole="Student" ToRole="Lesson" />
+          <NavigationProperty Name="Section_Student" Relationship="Self.FK_Section_Student_Student" FromRole="Student" ToRole="Section_Student" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Teacher" FromRole="Teacher" ToRole="Timetable" />
+        </EntityType>
+        <EntityType Name="Timetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SectionId" Type="Int32" Nullable="false" />
+          <Property Name="TeacherId" Type="Int32" Nullable="false" />
+          <Property Name="CabinetId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cabinet" Relationship="Self.FK_Timetable_Cabinet" FromRole="Timetable" ToRole="Cabinet" />
+          <NavigationProperty Name="Lesson" Relationship="Self.FK_Lesson_Timetable" FromRole="Timetable" ToRole="Lesson" />
+          <NavigationProperty Name="Section" Relationship="Self.FK_Timetable_Section" FromRole="Timetable" ToRole="Section" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Timetable_Teacher" FromRole="Timetable" ToRole="Teacher" />
+        </EntityType>
+        <Association Name="FK_Timetable_Cabinet">
+          <End Role="Cabinet" Type="Self.Cabinet" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cabinet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="CabinetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_Timetable">
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timetable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="TimeTableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Student_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="1" />
+          <End Role="Section_Student" Type="Self.Section_Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section_Student">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timetable_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Student_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Section_Student" Type="Self.Section_Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section_Student">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timetable_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="shoolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cabinet" EntityType="Self.Cabinet" />
+          <EntitySet Name="Class" EntityType="Self.Class" />
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" />
+          <EntitySet Name="Section" EntityType="Self.Section" />
+          <EntitySet Name="Section_Student" EntityType="Self.Section_Student" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <EntitySet Name="Timetable" EntityType="Self.Timetable" />
+          <AssociationSet Name="FK_Timetable_Cabinet" Association="Self.FK_Timetable_Cabinet">
+            <End Role="Cabinet" EntitySet="Cabinet" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Class" Association="Self.FK_Student_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Student" Association="Self.FK_Lesson_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Timetable" Association="Self.FK_Lesson_Timetable">
+            <End Role="Timetable" EntitySet="Timetable" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Student_Section" Association="Self.FK_Section_Student_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Section_Student" EntitySet="Section_Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Section" Association="Self.FK_Timetable_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Student_Student" Association="Self.FK_Section_Student_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Section_Student" EntitySet="Section_Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Teacher" Association="Self.FK_Timetable_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище shoolModelContainer" CdmEntityContainer="shoolEntities">
+          <EntitySetMapping Name="Cabinet">
+            <EntityTypeMapping TypeName="shoolModel.Cabinet">
+              <MappingFragment StoreEntitySet="Cabinet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Class">
+            <EntityTypeMapping TypeName="shoolModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lesson">
+            <EntityTypeMapping TypeName="shoolModel.Lesson">
+              <MappingFragment StoreEntitySet="Lesson">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TimeTableId" ColumnName="TimeTableId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="IsExisted" ColumnName="IsExisted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Section">
+            <EntityTypeMapping TypeName="shoolModel.Section">
+              <MappingFragment StoreEntitySet="Section">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Section_Student">
+            <EntityTypeMapping TypeName="shoolModel.Section_Student">
+              <MappingFragment StoreEntitySet="Section_Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="shoolModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="shoolModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="shoolModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timetable">
+            <EntityTypeMapping TypeName="shoolModel.Timetable">
+              <MappingFragment StoreEntitySet="Timetable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="CabinetId" ColumnName="CabinetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

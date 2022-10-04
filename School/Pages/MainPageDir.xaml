@@ -12,11 +12,22 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
+     Background="#F8F8F8"
      FontFamily="{DynamicResource MaterialDesignFont}"
       Title="MainPageDir">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <Label x:Name="Circles" Content="Кружки" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <Border
+                VerticalAlignment="Bottom"
+                BorderBrush="Black"
+                BorderThickness="1" />
+        </StackPanel>
+        <Image Source="/img/Снимок экрана 2022-10-03 181815.png" Grid.Row="1" HorizontalAlignment="Center"/>
     </Grid>
 </Page>

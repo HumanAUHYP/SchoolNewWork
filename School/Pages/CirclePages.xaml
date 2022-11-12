@@ -85,8 +85,7 @@
             </Grid.ColumnDefinitions>
             <ListView
                 x:Name="lv_sections"
-                Background="Black"
-                SelectionChanged="lv_course_SelectionChanged">
+                Background="Black">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid
@@ -138,15 +137,13 @@
                                             HorizontalAlignment="Left"
                                             Orientation="Horizontal">
                                         </StackPanel>
-
-
                                     </Grid>
                                     <StackPanel Grid.Row="5" HorizontalAlignment="Center">
                                         <Button
-                                            x:Name="siqnForLesson"
+                                            x:Name="CirclesInfo"
                                             Margin="8,4,8,8"
                                             HorizontalAlignment="Left"
-                                            Click="siqnForLesson_Click"
+                                            Click="CirclesInfo_Click"
                                             CommandParameter="{Binding Id}"
                                             Content="Перейти к кружку"
                                             Style="{StaticResource MaterialDesignFlatButton}" />

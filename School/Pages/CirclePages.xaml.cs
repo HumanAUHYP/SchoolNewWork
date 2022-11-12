@@ -35,29 +35,22 @@ namespace School.Pages
             lv_sections.ItemsSource = sections;
         }
 
-        private void lv_course_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void siqnForLesson_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void BtnGoBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
 
-        private void BtnGoHome_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void search_TB_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void CirclesInfo_Click(object sender, RoutedEventArgs e)
+        {
+            var span = sender as Button;
+            var idSect = span.CommandParameter;
+            NavigationService.Navigate(new CirclesInfo((int)idSect));
         }
     }
 }

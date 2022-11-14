@@ -21,7 +21,7 @@
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"  Orientation="Vertical">
+        <StackPanel Grid.Row="0"  Orientation="Vertical" Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -40,7 +40,7 @@
                 <Button Grid.Column="3" Content="Статистика" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 </Button>
-                <Button Grid.Column="4" Content="Расписание" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand">
+                <Button Grid.Column="4" Content="Расписание" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" Click="Button_Click_2">
 
                 </Button>
             </Grid>
@@ -50,6 +50,6 @@
                 BorderBrush="Black"
                 BorderThickness="1" />-->
         </StackPanel>
-        <Image Source="/img/Снимок экрана 2022-10-03 181815.png" Grid.Row="1" HorizontalAlignment="Center"/>
+        <Image Source="/img/Снимок экрана 2022-10-03 181815.png" Grid.Row="1" HorizontalAlignment="Center" Width="572"/>
     </Grid>
 </Page>

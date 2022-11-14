@@ -8,6 +8,6 @@ namespace School.DB
 {
     class DBconnection
     {
-        public shoolEntities db = new shoolEntities();
+        public static shoolEntities db = new shoolEntities();
     }
 }

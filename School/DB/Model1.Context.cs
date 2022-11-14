@@ -26,13 +26,16 @@ namespace School.DB
         }
     
         public virtual DbSet<Cabinet> Cabinet { get; set; }
-        public virtual DbSet<Class> Class { get; set; }
+        public virtual DbSet<Day> Day { get; set; }
         public virtual DbSet<Lesson> Lesson { get; set; }
         public virtual DbSet<Section> Section { get; set; }
         public virtual DbSet<Section_Student> Section_Student { get; set; }
         public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<StudentExisted> StudentExisted { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Teacher> Teacher { get; set; }
+        public virtual DbSet<Time> Time { get; set; }
         public virtual DbSet<Timetable> Timetable { get; set; }
+        public virtual DbSet<Section_Teacher> Section_Teacher { get; set; }
     }
 }

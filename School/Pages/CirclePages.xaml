@@ -59,7 +59,7 @@
                         Width="300"
                         Height="50"
                         VerticalAlignment="Top"
-                        materialDesign:HintAssist.Hint="Поиск по курсам"
+                        materialDesign:HintAssist.Hint="Поиск по кружкам"
                         AcceptsReturn="True"
                         BorderBrush="#683ead"
                         Cursor="Arrow"

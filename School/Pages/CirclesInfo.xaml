@@ -62,10 +62,10 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Content="Название" HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
-                            <Label Grid.Column="0" Grid.Row="1" Content="Учеников" HorizontalAlignment="Center"
+                            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Content="Описание" HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                             <TextBlock x:Name="tb_Name" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="tb_valuePeople" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="tb_desc" TextAlignment="Justify" Margin="5" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -73,7 +73,19 @@
                     <ListView Margin="15" x:Name="lv_teachers">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Полное имя" DisplayMemberBinding="{Binding FullName}"></GridViewColumn>
+                                <GridViewColumn Header="Полное имя" DisplayMemberBinding="{Binding Teacher.FullName}"></GridViewColumn>
+                                <!--<GridViewColumn Header="Преподает">
+                                    <CheckBox IsChecked="{Binding }"
+                                </GridViewColumn>-->
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Ученики">
+                    <ListView Margin="15" x:Name="lv_students">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Полное имя" DisplayMemberBinding="{Binding Student.FullName}"></GridViewColumn>
                                 <!--<GridViewColumn Header="Преподает">
                                     <CheckBox IsChecked="{Binding }"
                                 </GridViewColumn>-->

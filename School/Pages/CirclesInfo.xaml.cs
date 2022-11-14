@@ -22,23 +22,26 @@ namespace School.Pages
     public partial class CirclesInfo : Page
     {
         public int id_section;
-        List<Teacher> teachers = new List<Teacher>();
+        List<Section_Teacher> teachers;
+        List<Section_Student> section_Students;
+        DB.Section section;
         public CirclesInfo(int idSect)
         {
             InitializeComponent();
             id_section = idSect;
+            section = DBconnection.db.Section.FirstOrDefault(p => p.Id == id_section);
             this.DataContext = this;
-            tb_Name.Text = "Курсы пикапа";
-            Teacher teacher = new Teacher { Id = 1, FullName = "Барышев Эмиль", IsDeleted = false };
-            Teacher teacher2 = new Teacher { Id = 1, FullName = "Мавлин Данис", IsDeleted = false };
-            Teacher teacher3 = new Teacher { Id = 1, FullName = "Мамонов Иван", IsDeleted = false };
-            Teacher teacher4 = new Teacher { Id = 1, FullName = "Николаев Климентий", IsDeleted = false };
-            teachers.Add(teacher);
-            teachers.Add(teacher2);
-            teachers.Add(teacher3);
-            teachers.Add(teacher4);
+            tb_Name.Text = section.Name;
+            teachers = DBconnection.db.Section_Teacher.Where(p => p.SectionId == id_section).ToList();
+            section_Students = DBconnection.db.Section_Student.Where(p => p.SectionId == id_section).ToList();
             lv_teachers.ItemsSource = teachers;
-            tb_valuePeople.Text = "25/10";
+            lv_students.ItemsSource = section_Students;
+            foreach (var f in section_Students)
+            {
+                
+                //f.Teacher.FullName;
+            }
+            tb_desc.Text = section.Description;
         }
 
         private void search_TB_TextChanged(object sender, TextChangedEventArgs e)

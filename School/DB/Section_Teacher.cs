@@ -12,18 +12,14 @@ namespace School.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Class
+    public partial class Section_Teacher
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Class()
-        {
-            this.Student = new HashSet<Student>();
-        }
-    
         public int Id { get; set; }
-        public string Number { get; set; }
+        public Nullable<int> SectionId { get; set; }
+        public Nullable<int> TeacherID { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Student { get; set; }
+        public virtual Section Section { get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

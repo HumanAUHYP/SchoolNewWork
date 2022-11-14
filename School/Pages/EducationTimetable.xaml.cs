@@ -13,38 +13,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using School.DB;
+
 namespace School.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для CirclePages.xaml
+    /// Логика взаимодействия для EducationTimetable.xaml
     /// </summary>
-    public partial class CirclePages : Page
+    public partial class EducationTimetable : Page
     {
-        List<DB.Section> sections = new List<DB.Section>();
-        public CirclePages()
+        List<Timetable> timetables;
+        List<Cabinet> cabinet;
+        public EducationTimetable()
         {
             InitializeComponent();
-            sections = DBconnection.db.Section.ToList();
             this.DataContext = this;
-            lv_sections.ItemsSource = sections;
+            cabinet = DBconnection.db.Cabinet.ToList();
+            cb_cabinet.ItemsSource = cabinet.ToString();
+            //foreach (var cabinet in cabinet)
+            //{
+                
+            //}
         }
 
         private void BtnGoBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
-        }
-
-
-        private void search_TB_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void CirclesInfo_Click(object sender, RoutedEventArgs e)
-        {
-            var span = sender as Button;
-            var idSect = span.CommandParameter;
-            NavigationService.Navigate(new CirclesInfo((int)idSect));
         }
     }
 }

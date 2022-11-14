@@ -21,15 +21,18 @@ namespace School.DB
         }
     
         public int Id { get; set; }
-        public System.DateTime DateTime { get; set; }
+        public System.DateTime TimeId { get; set; }
         public int SectionId { get; set; }
         public int TeacherId { get; set; }
         public int CabinetId { get; set; }
+        public Nullable<int> DayId { get; set; }
     
         public virtual Cabinet Cabinet { get; set; }
+        public virtual Day Day { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lesson> Lesson { get; set; }
         public virtual Section Section { get; set; }
         public virtual Teacher Teacher { get; set; }
+        public virtual Time Time { get; set; }
     }
 }

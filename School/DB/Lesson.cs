@@ -14,12 +14,18 @@ namespace School.DB
     
     public partial class Lesson
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Lesson()
+        {
+            this.StudentExisted = new HashSet<StudentExisted>();
+        }
+    
         public int Id { get; set; }
         public int TimeTableId { get; set; }
-        public int StudentId { get; set; }
         public bool IsExisted { get; set; }
     
-        public virtual Student Student { get; set; }
         public virtual Timetable Timetable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudentExisted> StudentExisted { get; set; }
     }
 }

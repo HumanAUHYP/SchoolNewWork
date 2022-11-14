@@ -12,18 +12,18 @@ namespace School.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Student
+    public partial class Day
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Student()
+        public Day()
         {
-            this.Section_Student = new HashSet<Section_Student>();
+            this.Timetable = new HashSet<Timetable>();
         }
     
         public int Id { get; set; }
-        public string FullName { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Section_Student> Section_Student { get; set; }
+        public virtual ICollection<Timetable> Timetable { get; set; }
     }
 }

@@ -53,5 +53,10 @@ namespace School.Pages
         {
             NavigationService.GoBack();
         }
+
+        private void BtnPlus_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

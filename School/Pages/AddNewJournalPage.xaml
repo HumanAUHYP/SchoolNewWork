@@ -1,0 +1,92 @@
+﻿<Page x:Class="School.Pages.AddNewJournalPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:School.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+      Title="AddNewJournalPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#222">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Button
+                    x:Name="BtnGoBack"
+                    Width="50"
+                    Height="50"
+                    Margin="10,0,0,0"
+                    Click="BtnGoBack_Click"
+                    Content="{materialDesign:PackIcon ArrowLeft}"
+                    Cursor="Hand"
+                    FontSize="16"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="CB_Section" ItemsSource="{Binding Section}" Grid.Column="0" Grid.Row="1" Margin="10" SelectionChanged="CB_Section_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                            <Run Text="{Binding Name}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ListView x:Name="lvJournal" 
+                  ItemsSource="{Binding StudentExisted}" Margin="0 50 0 0" HorizontalAlignment="Center">
+                    <ListView.View>
+                        <GridView>
+
+                            <GridViewColumn Header="Имя" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Margin="-10 10 0 10" Text="{Binding Student.FullName}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Присутствовал">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Margin="-10 10 0 10" x:Name="cbStudentIsBe" IsChecked="{Binding IsExisted}" VerticalAlignment="Center" Click="cbStudentIsBe_Click">
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

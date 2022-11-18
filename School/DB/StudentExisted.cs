@@ -15,11 +15,11 @@ namespace School.DB
     public partial class StudentExisted
     {
         public int Id { get; set; }
-        public Nullable<int> LessonId { get; set; }
         public Nullable<int> StudentId { get; set; }
         public Nullable<bool> IsExisted { get; set; }
+        public Nullable<int> idLesson { get; set; }
     
         public virtual Lesson Lesson { get; set; }
-        public virtual Section_Student Section_Student { get; set; }
+        public virtual Student Student { get; set; }
     }
 }

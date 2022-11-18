@@ -1,4 +1,4 @@
-﻿<Page x:Class="School.Pages.CirclePages"
+﻿<Page x:Class="School.Pages.CirclesTeacherPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,7 +14,7 @@
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}"
-      Title="CirclePages">
+      Title="CirclesTeacherPage">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -78,27 +78,15 @@
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <Button
-                    x:Name="BtnPlus"
-                    Width="50"
-                    Height="50"
-                    Margin="10,0,0,0"
-                    Content="{materialDesign:PackIcon Plus}" VerticalAlignment="Center"
-                    Cursor="Hand"
-                    FontSize="16"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Click="BtnPlus_Click" />
-
-            </StackPanel>
+            
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="139*"/>
-                <ColumnDefinition Width="21*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <ListView
                 x:Name="lv_sections"
-                Background="Black" Grid.ColumnSpan="2">
+                Background="Black">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid
@@ -125,7 +113,7 @@
                                         <TextBlock
                                             Margin="0"
                                             Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                            Text="{Binding Name}"
+                                            Text="{Binding Section.Name}"
                                             TextWrapping="Wrap" />
 
                                         <Viewbox
@@ -157,7 +145,7 @@
                                             Margin="8,4,8,8"
                                             HorizontalAlignment="Left"
                                             Click="CirclesInfo_Click"
-                                            CommandParameter="{Binding Id}"
+                                            CommandParameter="{Binding Section.Id}"
                                             Content="Перейти к кружку"
                                             Style="{StaticResource MaterialDesignFlatButton}" />
                                     </StackPanel>

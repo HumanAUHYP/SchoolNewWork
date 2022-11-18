@@ -16,15 +16,17 @@ using School.DB;
 namespace School.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для CirclePages.xaml
+    /// Логика взаимодействия для CirclesTeacherPage.xaml
     /// </summary>
-    public partial class CirclePages : Page
+    public partial class CirclesTeacherPage : Page
     {
-        List<DB.Section> sections = new List<DB.Section>();
-        public CirclePages()
+        List<Section_Teacher> sections = new List<Section_Teacher>();
+        public int idTeach;
+        public CirclesTeacherPage(int id)
         {
             InitializeComponent();
-            sections = DBconnection.db.Section.ToList();
+            idTeach = id;
+            sections = DBconnection.db.Section_Teacher.Where(p => p.TeacherID == idTeach).ToList();
             this.DataContext = this;
             lv_sections.ItemsSource = sections;
         }
@@ -44,12 +46,7 @@ namespace School.Pages
         {
             var span = sender as Button;
             var idSect = span.CommandParameter;
-            NavigationService.Navigate(new CirclesInfo((int)idSect));
-        }
-
-        private void BtnPlus_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new NewSectionPage());
+            NavigationService.Navigate(new CirclesStudentInfoPage((int)idSect));
         }
     }
 }

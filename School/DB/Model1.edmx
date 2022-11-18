@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище shoolModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище shoolModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cabinet">
           <Key>
             <PropertyRef Name="Id" />
@@ -24,8 +24,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TimeTableId" Type="int" Nullable="false" />
-          <Property Name="IsExisted" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="idSection" Type="int" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -68,9 +68,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LessonId" Type="int" />
           <Property Name="StudentId" Type="int" />
           <Property Name="IsExisted" Type="bit" />
+          <Property Name="idLesson" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -104,21 +104,21 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TimeId" Type="datetime" Nullable="false" />
+          <Property Name="TimeId" Type="int" Nullable="false" />
           <Property Name="SectionId" Type="int" Nullable="false" />
           <Property Name="TeacherId" Type="int" Nullable="false" />
           <Property Name="CabinetId" Type="int" Nullable="false" />
           <Property Name="DayId" Type="int" />
         </EntityType>
-        <Association Name="FK_Lesson_Timetable">
-          <End Role="Timetable" Type="Self.Timetable" Multiplicity="1" />
+        <Association Name="FK_Lesson_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
           <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Timetable">
+            <Principal Role="Section">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Lesson">
-              <PropertyRef Name="TimeTableId" />
+              <PropertyRef Name="idSection" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -178,31 +178,19 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StudentExisted">
-              <PropertyRef Name="LessonId" />
+              <PropertyRef Name="idLesson" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StudentExisted_Section_Student">
-          <End Role="Section_Student" Type="Self.Section_Student" Multiplicity="0..1" />
+        <Association Name="FK_StudentExisted_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
           <End Role="StudentExisted" Type="Self.StudentExisted" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Section_Student">
+            <Principal Role="Student">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StudentExisted">
               <PropertyRef Name="StudentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Time_Timetable">
-          <End Role="Timetable" Type="Self.Timetable" Multiplicity="1" />
-          <End Role="Time" Type="Self.Time" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Timetable">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Time">
-              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -254,6 +242,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Timetable_Time">
+          <End Role="Time" Type="Self.Time" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Time">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="TimeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище shoolModelContainer">
           <EntitySet Name="Cabinet" EntityType="Self.Cabinet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Day" EntityType="Self.Day" Schema="dbo" store:Type="Tables" />
@@ -267,8 +267,8 @@
           <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Time" EntityType="Self.Time" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Timetable" EntityType="Self.Timetable" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Lesson_Timetable" Association="Self.FK_Lesson_Timetable">
-            <End Role="Timetable" EntitySet="Timetable" />
+          <AssociationSet Name="FK_Lesson_Section" Association="Self.FK_Lesson_Section">
+            <End Role="Section" EntitySet="Section" />
             <End Role="Lesson" EntitySet="Lesson" />
           </AssociationSet>
           <AssociationSet Name="FK_Section_Student_Section" Association="Self.FK_Section_Student_Section">
@@ -291,13 +291,9 @@
             <End Role="Lesson" EntitySet="Lesson" />
             <End Role="StudentExisted" EntitySet="StudentExisted" />
           </AssociationSet>
-          <AssociationSet Name="FK_StudentExisted_Section_Student" Association="Self.FK_StudentExisted_Section_Student">
-            <End Role="Section_Student" EntitySet="Section_Student" />
+          <AssociationSet Name="FK_StudentExisted_Student" Association="Self.FK_StudentExisted_Student">
+            <End Role="Student" EntitySet="Student" />
             <End Role="StudentExisted" EntitySet="StudentExisted" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Time_Timetable" Association="Self.FK_Time_Timetable">
-            <End Role="Timetable" EntitySet="Timetable" />
-            <End Role="Time" EntitySet="Time" />
           </AssociationSet>
           <AssociationSet Name="FK_Timetable_Cabinet" Association="Self.FK_Timetable_Cabinet">
             <End Role="Cabinet" EntitySet="Cabinet" />
@@ -315,8 +311,13 @@
             <End Role="Teacher" EntitySet="Teacher" />
             <End Role="Timetable" EntitySet="Timetable" />
           </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Time" Association="Self.FK_Timetable_Time">
+            <End Role="Time" EntitySet="Time" />
+            <End Role="Timetable" EntitySet="Timetable" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="shoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -341,9 +342,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TimeTableId" Type="Int32" Nullable="false" />
-          <Property Name="IsExisted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Timetable" Relationship="Self.FK_Lesson_Timetable" FromRole="Lesson" ToRole="Timetable" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idSection" Type="Int32" />
+          <NavigationProperty Name="Section" Relationship="Self.FK_Lesson_Section" FromRole="Lesson" ToRole="Section" />
           <NavigationProperty Name="StudentExisted" Relationship="Self.FK_StudentExisted_Lesson" FromRole="Lesson" ToRole="StudentExisted" />
         </EntityType>
         <EntityType Name="Section">
@@ -356,9 +357,10 @@
           <Property Name="MaxPupils" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Lesson" Relationship="Self.FK_Lesson_Section" FromRole="Section" ToRole="Lesson" />
           <NavigationProperty Name="Section_Student" Relationship="Self.FK_Section_Student_Section" FromRole="Section" ToRole="Section_Student" />
+          <NavigationProperty Name="Section_Teacher" Relationship="Self.FK_Section_Teacher_Section" FromRole="Section" ToRole="Section_Teacher" />
           <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Section" FromRole="Section" ToRole="Timetable" />
-          <NavigationProperty Name="Section_Teacher" Relationship="shoolModel.FK_Section_Teacher_Section" FromRole="Section" ToRole="Section_Teacher" />
         </EntityType>
         <EntityType Name="Section_Student">
           <Key>
@@ -370,7 +372,17 @@
           <Property Name="IsRegistered" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Section" Relationship="Self.FK_Section_Student_Section" FromRole="Section_Student" ToRole="Section" />
           <NavigationProperty Name="Student" Relationship="Self.FK_Section_Student_Student" FromRole="Section_Student" ToRole="Student" />
-          <NavigationProperty Name="StudentExisted" Relationship="Self.FK_StudentExisted_Section_Student" FromRole="Section_Student" ToRole="StudentExisted" />
+        </EntityType>
+        <EntityType Name="Section_Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="TeacherID" Type="Int32" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Section" Relationship="Self.FK_Section_Teacher_Section" FromRole="Section_Teacher" ToRole="Section" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Section_Teacher_Teacher" FromRole="Section_Teacher" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -379,17 +391,18 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Section_Student" Relationship="Self.FK_Section_Student_Student" FromRole="Student" ToRole="Section_Student" />
+          <NavigationProperty Name="StudentExisted" Relationship="Self.FK_StudentExisted_Student" FromRole="Student" ToRole="StudentExisted" />
         </EntityType>
         <EntityType Name="StudentExisted">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LessonId" Type="Int32" />
           <Property Name="StudentId" Type="Int32" />
           <Property Name="IsExisted" Type="Boolean" />
+          <Property Name="idLesson" Type="Int32" />
           <NavigationProperty Name="Lesson" Relationship="Self.FK_StudentExisted_Lesson" FromRole="StudentExisted" ToRole="Lesson" />
-          <NavigationProperty Name="Section_Student" Relationship="Self.FK_StudentExisted_Section_Student" FromRole="StudentExisted" ToRole="Section_Student" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_StudentExisted_Student" FromRole="StudentExisted" ToRole="Student" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -410,8 +423,8 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Section_Teacher" Relationship="Self.FK_Section_Teacher_Teacher" FromRole="Teacher" ToRole="Section_Teacher" />
           <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Teacher" FromRole="Teacher" ToRole="Timetable" />
-          <NavigationProperty Name="Section_Teacher" Relationship="shoolModel.FK_Section_Teacher_Teacher" FromRole="Teacher" ToRole="Section_Teacher" />
         </EntityType>
         <EntityType Name="Time">
           <Key>
@@ -419,24 +432,23 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="time1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Timetable" Relationship="Self.FK_Time_Timetable" FromRole="Time" ToRole="Timetable" />
+          <NavigationProperty Name="Timetable" Relationship="Self.FK_Timetable_Time" FromRole="Time" ToRole="Timetable" />
         </EntityType>
         <EntityType Name="Timetable">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TimeId" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeId" Type="Int32" Nullable="false" />
           <Property Name="SectionId" Type="Int32" Nullable="false" />
           <Property Name="TeacherId" Type="Int32" Nullable="false" />
           <Property Name="CabinetId" Type="Int32" Nullable="false" />
           <Property Name="DayId" Type="Int32" />
           <NavigationProperty Name="Cabinet" Relationship="Self.FK_Timetable_Cabinet" FromRole="Timetable" ToRole="Cabinet" />
           <NavigationProperty Name="Day" Relationship="Self.FK_Timetable_Day" FromRole="Timetable" ToRole="Day" />
-          <NavigationProperty Name="Lesson" Relationship="Self.FK_Lesson_Timetable" FromRole="Timetable" ToRole="Lesson" />
           <NavigationProperty Name="Section" Relationship="Self.FK_Timetable_Section" FromRole="Timetable" ToRole="Section" />
           <NavigationProperty Name="Teacher" Relationship="Self.FK_Timetable_Teacher" FromRole="Timetable" ToRole="Teacher" />
-          <NavigationProperty Name="Time" Relationship="Self.FK_Time_Timetable" FromRole="Timetable" ToRole="Time" />
+          <NavigationProperty Name="Time" Relationship="Self.FK_Timetable_Time" FromRole="Timetable" ToRole="Time" />
         </EntityType>
         <Association Name="FK_Timetable_Cabinet">
           <End Role="Cabinet" Type="Self.Cabinet" Multiplicity="1" />
@@ -462,15 +474,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Lesson_Timetable">
-          <End Role="Timetable" Type="Self.Timetable" Multiplicity="1" />
+        <Association Name="FK_Lesson_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
           <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Timetable">
+            <Principal Role="Section">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Lesson">
-              <PropertyRef Name="TimeTableId" />
+              <PropertyRef Name="idSection" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -482,7 +494,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StudentExisted">
-              <PropertyRef Name="LessonId" />
+              <PropertyRef Name="idLesson" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -494,6 +506,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Section_Student">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Teacher_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
+          <End Role="Section_Teacher" Type="Self.Section_Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section_Teacher">
               <PropertyRef Name="SectionId" />
             </Dependent>
           </ReferentialConstraint>
@@ -522,11 +546,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StudentExisted_Section_Student">
-          <End Role="Section_Student" Type="Self.Section_Student" Multiplicity="0..1" />
+        <Association Name="FK_Section_Teacher_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Section_Teacher" Type="Self.Section_Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section_Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentExisted_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
           <End Role="StudentExisted" Type="Self.StudentExisted" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Section_Student">
+            <Principal Role="Student">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StudentExisted">
@@ -546,15 +582,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Time_Timetable">
-          <End Role="Timetable" Type="Self.Timetable" Multiplicity="1" />
-          <End Role="Time" Type="Self.Time" Multiplicity="0..1" />
+        <Association Name="FK_Timetable_Time">
+          <End Role="Time" Type="Self.Time" Multiplicity="1" />
+          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Timetable">
+            <Principal Role="Time">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Time">
-              <PropertyRef Name="Id" />
+            <Dependent Role="Timetable">
+              <PropertyRef Name="TimeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -564,6 +600,7 @@
           <EntitySet Name="Lesson" EntityType="Self.Lesson" />
           <EntitySet Name="Section" EntityType="Self.Section" />
           <EntitySet Name="Section_Student" EntityType="Self.Section_Student" />
+          <EntitySet Name="Section_Teacher" EntityType="Self.Section_Teacher" />
           <EntitySet Name="Student" EntityType="Self.Student" />
           <EntitySet Name="StudentExisted" EntityType="Self.StudentExisted" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
@@ -578,8 +615,8 @@
             <End Role="Day" EntitySet="Day" />
             <End Role="Timetable" EntitySet="Timetable" />
           </AssociationSet>
-          <AssociationSet Name="FK_Lesson_Timetable" Association="Self.FK_Lesson_Timetable">
-            <End Role="Timetable" EntitySet="Timetable" />
+          <AssociationSet Name="FK_Lesson_Section" Association="Self.FK_Lesson_Section">
+            <End Role="Section" EntitySet="Section" />
             <End Role="Lesson" EntitySet="Lesson" />
           </AssociationSet>
           <AssociationSet Name="FK_StudentExisted_Lesson" Association="Self.FK_StudentExisted_Lesson">
@@ -590,6 +627,10 @@
             <End Role="Section" EntitySet="Section" />
             <End Role="Section_Student" EntitySet="Section_Student" />
           </AssociationSet>
+          <AssociationSet Name="FK_Section_Teacher_Section" Association="Self.FK_Section_Teacher_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Section_Teacher" EntitySet="Section_Teacher" />
+          </AssociationSet>
           <AssociationSet Name="FK_Timetable_Section" Association="Self.FK_Timetable_Section">
             <End Role="Section" EntitySet="Section" />
             <End Role="Timetable" EntitySet="Timetable" />
@@ -598,63 +639,23 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="Section_Student" EntitySet="Section_Student" />
           </AssociationSet>
-          <AssociationSet Name="FK_StudentExisted_Section_Student" Association="Self.FK_StudentExisted_Section_Student">
-            <End Role="Section_Student" EntitySet="Section_Student" />
+          <AssociationSet Name="FK_Section_Teacher_Teacher" Association="Self.FK_Section_Teacher_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Section_Teacher" EntitySet="Section_Teacher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentExisted_Student" Association="Self.FK_StudentExisted_Student">
+            <End Role="Student" EntitySet="Student" />
             <End Role="StudentExisted" EntitySet="StudentExisted" />
           </AssociationSet>
           <AssociationSet Name="FK_Timetable_Teacher" Association="Self.FK_Timetable_Teacher">
             <End Role="Teacher" EntitySet="Teacher" />
             <End Role="Timetable" EntitySet="Timetable" />
           </AssociationSet>
-          <AssociationSet Name="FK_Time_Timetable" Association="Self.FK_Time_Timetable">
-            <End Role="Timetable" EntitySet="Timetable" />
+          <AssociationSet Name="FK_Timetable_Time" Association="Self.FK_Timetable_Time">
             <End Role="Time" EntitySet="Time" />
-          </AssociationSet>
-          <EntitySet Name="Section_Teacher" EntityType="shoolModel.Section_Teacher" />
-          <AssociationSet Name="FK_Section_Teacher_Section" Association="shoolModel.FK_Section_Teacher_Section">
-            <End Role="Section" EntitySet="Section" />
-            <End Role="Section_Teacher" EntitySet="Section_Teacher" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Section_Teacher_Teacher" Association="shoolModel.FK_Section_Teacher_Teacher">
-            <End Role="Teacher" EntitySet="Teacher" />
-            <End Role="Section_Teacher" EntitySet="Section_Teacher" />
+            <End Role="Timetable" EntitySet="Timetable" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Section_Teacher">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SectionId" Type="Int32" />
-          <Property Name="TeacherID" Type="Int32" />
-          <Property Name="IsDelete" Type="Boolean" />
-          <NavigationProperty Name="Section" Relationship="shoolModel.FK_Section_Teacher_Section" FromRole="Section_Teacher" ToRole="Section" />
-          <NavigationProperty Name="Teacher" Relationship="shoolModel.FK_Section_Teacher_Teacher" FromRole="Section_Teacher" ToRole="Teacher" />
-        </EntityType>
-        <Association Name="FK_Section_Teacher_Section">
-          <End Type="shoolModel.Section" Role="Section" Multiplicity="0..1" />
-          <End Type="shoolModel.Section_Teacher" Role="Section_Teacher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Section">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Section_Teacher">
-              <PropertyRef Name="SectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Section_Teacher_Teacher">
-          <End Type="shoolModel.Teacher" Role="Teacher" Multiplicity="0..1" />
-          <End Type="shoolModel.Section_Teacher" Role="Section_Teacher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teacher">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Section_Teacher">
-              <PropertyRef Name="TeacherID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -681,8 +682,8 @@
             <EntityTypeMapping TypeName="shoolModel.Lesson">
               <MappingFragment StoreEntitySet="Lesson">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="TimeTableId" ColumnName="TimeTableId" />
-                <ScalarProperty Name="IsExisted" ColumnName="IsExisted" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="idSection" ColumnName="idSection" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -708,6 +709,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Section_Teacher">
+            <EntityTypeMapping TypeName="shoolModel.Section_Teacher">
+              <MappingFragment StoreEntitySet="Section_Teacher">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Student">
             <EntityTypeMapping TypeName="shoolModel.Student">
               <MappingFragment StoreEntitySet="Student">
@@ -720,9 +731,9 @@
             <EntityTypeMapping TypeName="shoolModel.StudentExisted">
               <MappingFragment StoreEntitySet="StudentExisted">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LessonId" ColumnName="LessonId" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
                 <ScalarProperty Name="IsExisted" ColumnName="IsExisted" />
+                <ScalarProperty Name="idLesson" ColumnName="idLesson" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -765,16 +776,6 @@
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
                 <ScalarProperty Name="CabinetId" ColumnName="CabinetId" />
                 <ScalarProperty Name="DayId" ColumnName="DayId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Section_Teacher">
-            <EntityTypeMapping TypeName="shoolModel.Section_Teacher">
-              <MappingFragment StoreEntitySet="Section_Teacher">
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
-                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

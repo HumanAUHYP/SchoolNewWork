@@ -27,7 +27,10 @@ namespace School.Pages
 
         private void AuthBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new MainPageDir());
+            if (loginAuth_tb.Text == "1")
+                NavigationService.Navigate(new MainPageDir());
+            else
+                NavigationService.Navigate(new MainPageTeacher(1));
         }
     }
 }

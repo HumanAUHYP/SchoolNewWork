@@ -4,31 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8e676d71a992448da1f514f924ebc3ad" Name="Diagram1">
+      <Diagram DiagramId="1798f8dc195e4462a1be2b19c21b9a6c" Name="Diagram1">
         <EntityTypeShape EntityType="shoolModel.Cabinet" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Day" Width="1.5" PointX="3.75" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Lesson" Width="1.5" PointX="8.25" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Section" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Section_Student" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Student" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.StudentExisted" Width="1.5" PointX="10.5" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Teacher" Width="1.5" PointX="3.75" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Time" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="shoolModel.Timetable" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Day" Width="1.5" PointX="3.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Lesson" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Section" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Section_Student" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Section_Teacher" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Student" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.StudentExisted" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Teacher" Width="1.5" PointX="3.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Time" Width="1.5" PointX="3.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="shoolModel.Timetable" Width="1.5" PointX="6" PointY="1.875" IsExpanded="true" />
         <AssociationConnector Association="shoolModel.FK_Timetable_Cabinet" ManuallyRouted="false" />
         <AssociationConnector Association="shoolModel.FK_Timetable_Day" ManuallyRouted="false" />
-        <AssociationConnector Association="shoolModel.FK_Lesson_Timetable" ManuallyRouted="false" />
+        <AssociationConnector Association="shoolModel.FK_Lesson_Section" ManuallyRouted="false" />
         <AssociationConnector Association="shoolModel.FK_StudentExisted_Lesson" ManuallyRouted="false" />
         <AssociationConnector Association="shoolModel.FK_Section_Student_Section" ManuallyRouted="false" />
+        <AssociationConnector Association="shoolModel.FK_Section_Teacher_Section" ManuallyRouted="false" />
         <AssociationConnector Association="shoolModel.FK_Timetable_Section" ManuallyRouted="false" />
         <AssociationConnector Association="shoolModel.FK_Section_Student_Student" ManuallyRouted="false" />
-        <AssociationConnector Association="shoolModel.FK_StudentExisted_Section_Student" ManuallyRouted="false" />
+        <AssociationConnector Association="shoolModel.FK_Section_Teacher_Teacher" ManuallyRouted="false" />
+        <AssociationConnector Association="shoolModel.FK_StudentExisted_Student" ManuallyRouted="false" />
         <AssociationConnector Association="shoolModel.FK_Timetable_Teacher" ManuallyRouted="false" />
-        <AssociationConnector Association="shoolModel.FK_Time_Timetable" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="shoolModel.Section_Teacher" Width="1.5" PointX="6" PointY="8.25" />
-        <AssociationConnector Association="shoolModel.FK_Section_Teacher_Section" />
-        <AssociationConnector Association="shoolModel.FK_Section_Teacher_Teacher" />
+        <AssociationConnector Association="shoolModel.FK_Timetable_Time" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

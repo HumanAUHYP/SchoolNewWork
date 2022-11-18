@@ -14,14 +14,8 @@ namespace School.DB
     
     public partial class Timetable
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Timetable()
-        {
-            this.Lesson = new HashSet<Lesson>();
-        }
-    
         public int Id { get; set; }
-        public System.DateTime TimeId { get; set; }
+        public int TimeId { get; set; }
         public int SectionId { get; set; }
         public int TeacherId { get; set; }
         public int CabinetId { get; set; }
@@ -29,8 +23,6 @@ namespace School.DB
     
         public virtual Cabinet Cabinet { get; set; }
         public virtual Day Day { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lesson> Lesson { get; set; }
         public virtual Section Section { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual Time Time { get; set; }

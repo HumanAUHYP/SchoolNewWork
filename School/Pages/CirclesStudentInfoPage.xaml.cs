@@ -13,20 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using School.DB;
+
 namespace School.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для CirclePages.xaml
+    /// Логика взаимодействия для CirclesStudentInfoPage.xaml
     /// </summary>
-    public partial class CirclePages : Page
+    public partial class CirclesStudentInfoPage : Page
     {
-        List<DB.Section> sections = new List<DB.Section>();
-        public CirclePages()
+        List<Section_Student> students;
+        public int idSection;
+        public CirclesStudentInfoPage(int idSect)
         {
             InitializeComponent();
-            sections = DBconnection.db.Section.ToList();
+            idSection = idSect;
+            students = DBconnection.db.Section_Student.Where(p => p.SectionId == idSection).ToList();
+            lv_teachers.ItemsSource = students;
             this.DataContext = this;
-            lv_sections.ItemsSource = sections;
         }
 
         private void BtnGoBack_Click(object sender, RoutedEventArgs e)
@@ -34,22 +37,15 @@ namespace School.Pages
             NavigationService.GoBack();
         }
 
-
         private void search_TB_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
-        private void CirclesInfo_Click(object sender, RoutedEventArgs e)
-        {
-            var span = sender as Button;
-            var idSect = span.CommandParameter;
-            NavigationService.Navigate(new CirclesInfo((int)idSect));
-        }
-
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new NewSectionPage());
+            Window window = new AddNewInCirclesWindow(idSection);
+            window.Show();
         }
     }
 }

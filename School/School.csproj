@@ -136,11 +136,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AddNewInCirclesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AddNewJournalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CirclePages.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CirclesInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CirclesStudentInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CirclesTeacherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,7 +168,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\MainPageTeacher.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewSectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\PageAutho.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TeacherInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,13 +188,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\TeachesJournalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\AddNewInCirclesWindow.xaml.cs">
+      <DependentUpon>AddNewInCirclesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AddNewJournalPage.xaml.cs">
+      <DependentUpon>AddNewJournalPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CirclePages.xaml.cs">
       <DependentUpon>CirclePages.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\CirclesInfo.xaml.cs">
       <DependentUpon>CirclesInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CirclesStudentInfoPage.xaml.cs">
+      <DependentUpon>CirclesStudentInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CirclesTeacherPage.xaml.cs">
+      <DependentUpon>CirclesTeacherPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\EducationTimetable.xaml.cs">
       <DependentUpon>EducationTimetable.xaml</DependentUpon>
@@ -174,11 +218,23 @@
     <Compile Include="Pages\MainPageDir.xaml.cs">
       <DependentUpon>MainPageDir.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MainPageTeacher.xaml.cs">
+      <DependentUpon>MainPageTeacher.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewSectionPage.xaml.cs">
+      <DependentUpon>NewSectionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PageAutho.xaml.cs">
       <DependentUpon>PageAutho.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TeacherInfoPage.xaml.cs">
+      <DependentUpon>TeacherInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TeachersPage.xaml.cs">
       <DependentUpon>TeachersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TeachesJournalPage.xaml.cs">
+      <DependentUpon>TeachesJournalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -218,6 +274,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\лого.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\Model1.Context.tt">

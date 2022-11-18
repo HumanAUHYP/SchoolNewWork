@@ -14,12 +14,6 @@ namespace School.DB
     
     public partial class Section_Student
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Section_Student()
-        {
-            this.StudentExisted = new HashSet<StudentExisted>();
-        }
-    
         public int Id { get; set; }
         public int SectionId { get; set; }
         public int StudentId { get; set; }
@@ -27,7 +21,5 @@ namespace School.DB
     
         public virtual Section Section { get; set; }
         public virtual Student Student { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StudentExisted> StudentExisted { get; set; }
     }
 }

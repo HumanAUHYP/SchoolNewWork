@@ -13,36 +13,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using School.DB;
-
 namespace School.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для TeachersPage.xaml
+    /// Логика взаимодействия для TeacherInfoPage.xaml
     /// </summary>
-    public partial class TeachersPage : Page
+    public partial class TeacherInfoPage : Page
     {
-        List<Teacher> teachers = new List<Teacher>();
-        public TeachersPage()
+        int idxTeacher;
+        List<Section_Teacher> section_Teachers;
+        public TeacherInfoPage(int teacherIdx)
         {
             InitializeComponent();
             this.DataContext = this;
-            teachers = DBconnection.db.Teacher.ToList();
-            lv_teachers.ItemsSource = teachers;
+            idxTeacher = teacherIdx;
+            section_Teachers = DBconnection.db.Section_Teacher.Where(p => p.TeacherID == idxTeacher).ToList();
+            lv_circles.ItemsSource = section_Teachers;
         }
 
         private void BtnGoBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
-        }
-
-        private void search_TB_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void lv_teachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            NavigationService.Navigate(new TeacherInfoPage(lv_teachers.SelectedIndex + 1));
         }
     }
 }
